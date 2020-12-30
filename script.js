@@ -26,6 +26,11 @@ document.addEventListener('DOMContentLoaded', () => {
       grid.appendChild(square);
       //adds the create square into the squares array
       squares.push(square);
+
+      //regular click
+      square.addEventListener('click', (e) => {
+        click(square);
+      });
     }
 
     //add numbers to squares
@@ -70,11 +75,15 @@ document.addEventListener('DOMContentLoaded', () => {
           squares[i].innerText = `${total}`;
         }
       }
-
-      console.log(squares[i]);
     }
   }
   createBoard();
+
+  function click(square) {
+    if (square.classList.contains('bomb')) {
+      alert('u fucked up');
+    }
+  }
 
   //Fisher Yates Shuffle Method
   function fisherShuffle(array) {
