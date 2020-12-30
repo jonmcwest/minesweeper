@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', () => {
   //Current Grid width in tiles
   let width = 10;
   let tiles = [];
-  let bombCount = 15;
+  let bombCount = 1;
   let flags = 0;
   let isGameOver = false;
 
@@ -221,7 +221,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const newSquare = document.getElementById(newId);
         click(newSquare);
       }
-    }, 250);
+    }, 500);
   }
 
   function gameOver(tile) {
