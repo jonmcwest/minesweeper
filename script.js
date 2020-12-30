@@ -4,6 +4,7 @@ document.addEventListener('DOMContentLoaded', () => {
   let width = 10;
   let tiles = [];
   let bombCount = 2;
+  let flags = 0;
   let isGameOver = false;
 
   //Create the play board
@@ -32,6 +33,11 @@ document.addEventListener('DOMContentLoaded', () => {
       tile.addEventListener('click', (e) => {
         click(tile);
       });
+
+      tile.oncontextmenu = function (e) {
+        e.preventDefault();
+        addFlag(tile);
+      };
     }
 
     //add numbers to tiles
@@ -76,6 +82,23 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
   createBoard();
+
+  //adds a flag on a right click
+  function addFlag(tile) {
+    if (isGameOver) return;
+    if (!tile.classList.contains('checked') && flags < bombCount) {
+      if (!tile.classList.contains('flag')) {
+        tile.classList.add('flag');
+        tile.innerHTML = 'FLAG';
+        flags++;
+        checkWin();
+      } else {
+        tile.classList.remove('flag');
+        tile.innerHTML = '';
+        flags--;
+      }
+    }
+  }
 
   function click(tile) {
     let currentId = tile.id;
@@ -201,7 +224,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }, 250);
   }
 
-  function gameOver(square) {
+  function gameOver(tile) {
     console.log('BOOOOOOOOM! Ur dead!');
     isGameOver = true;
 
@@ -211,6 +234,23 @@ document.addEventListener('DOMContentLoaded', () => {
         tile.innerHTML = 'BOOM';
       }
     });
+  }
+
+  function checkWin() {
+    let matches = 0;
+
+    for (let i = 0; i < tiles.length; i++) {
+      if (
+        tiles[i].classList.contains('flag') &&
+        tiles[i].classList.contains('bomb')
+      ) {
+        matches++;
+      }
+      if (matches === bombCount) {
+        console.log('Win');
+        isGameOver = true;
+      }
+    }
   }
 
   //Fisher Yates Shuffle Method
