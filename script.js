@@ -142,7 +142,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const newTile = document.getElementById(newId);
         click(newTile);
       }
-    }, 10);
+    }, 1000);
   }
 
   //Fisher Yates Shuffle Method
