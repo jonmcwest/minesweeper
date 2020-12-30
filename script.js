@@ -9,7 +9,12 @@ document.addEventListener('DOMContentLoaded', () => {
   function createBoard() {
     //creates array with random bombs
     const bombsArray = Array(bombCount).fill('bomb');
+    //creates array with remaining safe spaces
     const emptyArray = Array(width * width - bombCount).fill('safe');
+    //combines safe and bomb array
+    const gameArray = emptyArray.concat(bombsArray);
+    const shuffledArray = fisherShuffle(gameArray);
+    console.log(shuffledArray);
 
     for (let i = 0; i < width * width; i++) {
       //create square div
@@ -23,4 +28,26 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
   createBoard();
+
+  //Fisher Yates Shuffle Method
+  function fisherShuffle(array) {
+    var copy = [],
+      n = array.length,
+      i;
+
+    // While there remain elements to shuffle…
+    while (n) {
+      // Pick a remaining element…
+      i = Math.floor(Math.random() * array.length);
+
+      // If not already shuffled, move it to the new array.
+      if (i in array) {
+        copy.push(array[i]);
+        delete array[i];
+        n--;
+      }
+    }
+
+    return copy;
+  }
 });
