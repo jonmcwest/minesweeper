@@ -1,9 +1,10 @@
 document.addEventListener('DOMContentLoaded', () => {
   const grid = document.querySelector('.grid');
-  //Current Grid width in squares
+  //Current Grid width in tiles
   let width = 10;
-  let squares = [];
+  let tiles = [];
   let bombCount = 15;
+  let isGameOver = false;
 
   //Create the play board
   function createBoard() {
@@ -16,78 +17,132 @@ document.addEventListener('DOMContentLoaded', () => {
     const shuffledArray = fisherShuffle(gameArray);
 
     for (let i = 0; i < width * width; i++) {
-      //create square div
-      const square = document.createElement('div');
-      //apply individual id to the square
-      square.setAttribute('id', i);
+      //create tile div
+      const tile = document.createElement('div');
+      //apply individual id to the tile
+      tile.setAttribute('id', i);
       //applies bomb class based on the shuffled array
-      square.classList.add(shuffledArray[i]);
-      //places square div into grid when created
-      grid.appendChild(square);
-      //adds the create square into the squares array
-      squares.push(square);
+      tile.classList.add(shuffledArray[i]);
+      //places tile div into grid when created
+      grid.appendChild(tile);
+      //adds the create tile into the tiles array
+      tiles.push(tile);
 
       //regular click
-      square.addEventListener('click', (e) => {
-        click(square);
+      tile.addEventListener('click', (e) => {
+        click(tile);
       });
     }
 
-    //add numbers to squares
-    for (let i = 0; i < squares.length; i++) {
+    //add numbers to tiles
+    for (let i = 0; i < tiles.length; i++) {
       let total = 0;
       const isLeftEdge = i % width === 0;
       const isRightEdge = i % width === width - 1;
 
-      if (squares[i].classList.contains('safe')) {
-        if (i > 0 && !isLeftEdge && squares[i - 1].classList.contains('bomb'))
+      if (tiles[i].classList.contains('safe')) {
+        if (i > 0 && !isLeftEdge && tiles[i - 1].classList.contains('bomb'))
           total++;
         if (
           i > 9 &&
           !isRightEdge &&
-          squares[i + 1 - width].classList.contains('bomb')
+          tiles[i + 1 - width].classList.contains('bomb')
         )
           total++;
-        if (i > 10 && squares[i - width].classList.contains('bomb')) total++;
+        if (i > 10 && tiles[i - width].classList.contains('bomb')) total++;
         if (
           i > 11 &&
           !isLeftEdge &&
-          squares[i - 1 - width].classList.contains('bomb')
+          tiles[i - 1 - width].classList.contains('bomb')
         )
           total++;
-        if (i < 98 && !isRightEdge && squares[i + 1].classList.contains('bomb'))
+        if (i < 98 && !isRightEdge && tiles[i + 1].classList.contains('bomb'))
           total++;
         if (
           i < 90 &&
           !isLeftEdge &&
-          squares[i - 1 + width].classList.contains('bomb')
+          tiles[i - 1 + width].classList.contains('bomb')
         )
           total++;
         if (
           i < 88 &&
           !isRightEdge &&
-          squares[i + 1 + width].classList.contains('bomb')
+          tiles[i + 1 + width].classList.contains('bomb')
         )
           total++;
-        if (i < 89 && squares[i + width].classList.contains('bomb')) total++;
-        squares[i].setAttribute('data', total);
+        if (i < 89 && tiles[i + width].classList.contains('bomb')) total++;
+        tiles[i].setAttribute('data', total);
       }
     }
   }
   createBoard();
 
-  function click(square) {
-    if (square.classList.contains('bomb')) {
-      console.log('game over dun dun duuuuh!');
+  function click(tile) {
+    let currentId = tile.id;
+    if (isGameOver) return;
+    if (tile.classList.contains('checked') || tile.classList.contains('flag'))
+      return;
+    if (tile.classList.contains('bomb')) {
+      isGameOver = true;
     } else {
-      let total = square.getAttribute('data');
+      let total = tile.getAttribute('data');
       if (total != 0) {
-        square.classList.add('checked');
-        square.innerHTML = total;
+        tile.classList.add('checked');
+        tile.innerHTML = total;
         return;
       }
-      square.classList.add('checked');
+      checkTile(tile, currentId);
     }
+    tile.classList.add('checked');
+  }
+
+  //on tile click check neighbour tiles
+  function checkTile(tile, currentId) {
+    const isLeftEdge = currentId % width === 0;
+    const isRightEdge = currentId % width === width - 1;
+
+    setTimeout(() => {
+      if (currentId > 0 && !isLeftEdge) {
+        const newId = tiles[parseInt(currentId) - 1].id;
+        const newTile = document.getElementById(newId);
+        click(newTile);
+      }
+      if (currentId > 9 && !isRightEdge) {
+        const newId = tiles[parseInt(currentId) + 1 - width].id;
+        const newTile = document.getElementById(newId);
+        click(newTile);
+      }
+      if (currentId > 10) {
+        const newId = tiles[parseInt(currentId) - width].id;
+        const newTile = document.getElementById(newId);
+        click(newTile);
+      }
+      if (currentId > 10 && !isLeftEdge) {
+        const newId = tiles[parseInt(currentId) - 1 - width].id;
+        const newTile = document.getElementById(newId);
+        click(newTile);
+      }
+      if (currentId < 98 && !isRightEdge) {
+        const newId = tiles[parseInt(currentId) + 1].id;
+        const newTile = document.getElementById(newId);
+        click(newTile);
+      }
+      if (currentId < 90 && !isLeftEdge) {
+        const newId = tiles[parseInt(currentId) - 1 + width].id;
+        const newTile = document.getElementById(newId);
+        click(newTile);
+      }
+      if (currentId < 88 && !isRightEdge) {
+        const newId = tiles[parseInt(currentId) + 1 + width].id;
+        const newTile = document.getElementById(newId);
+        click(newTile);
+      }
+      if (currentId < 80 && !isRightEdge) {
+        const newId = tiles[parseInt(currentId) + width].id;
+        const newTile = document.getElementById(newId);
+        click(newTile);
+      }
+    }, 10);
   }
 
   //Fisher Yates Shuffle Method
