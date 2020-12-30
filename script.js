@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', () => {
   //Current Grid width in tiles
   let width = 10;
   let tiles = [];
-  let bombCount = 2;
+  let bombCount = 15;
   let flags = 0;
   let isGameOver = false;
 
@@ -76,7 +76,7 @@ document.addEventListener('DOMContentLoaded', () => {
           tiles[i + 1 + width].classList.contains('bomb')
         )
           total++;
-        if (i < 89 && tiles[i + width].classList.contains('bomb')) total++;
+        if (i < 90 && tiles[i + width].classList.contains('bomb')) total++;
         tiles[i].setAttribute('data', total);
       }
     }
@@ -167,7 +167,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const newSquare = document.getElementById(newId);
         click(newSquare);
       }
-      if (currentId < 89) {
+      if (currentId < 90) {
         const newId = tiles[parseInt(currentId) + width].id;
         //const newId = parseInt(currentId) +width   ....refactor
         const newSquare = document.getElementById(newId);
