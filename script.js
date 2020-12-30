@@ -71,9 +71,6 @@ document.addEventListener('DOMContentLoaded', () => {
           total++;
         if (i < 89 && squares[i + width].classList.contains('bomb')) total++;
         squares[i].setAttribute('data', total);
-        if (total > 0) {
-          squares[i].innerText = `${total}`;
-        }
       }
     }
   }
@@ -81,7 +78,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function click(square) {
     if (square.classList.contains('bomb')) {
-      alert('u fucked up');
+      console.log('game over dun dun duuuuh!');
+    } else {
+      let total = square.getAttribute('data');
+      if (total != 0) {
+        square.classList.add('checked');
+        square.innerHTML = total;
+        return;
+      }
+      square.classList.add('checked');
     }
   }
 
