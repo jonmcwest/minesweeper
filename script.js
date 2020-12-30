@@ -14,17 +14,64 @@ document.addEventListener('DOMContentLoaded', () => {
     //combines safe and bomb array
     const gameArray = emptyArray.concat(bombsArray);
     const shuffledArray = fisherShuffle(gameArray);
-    console.log(shuffledArray);
 
     for (let i = 0; i < width * width; i++) {
       //create square div
       const square = document.createElement('div');
       //apply individual id to the square
       square.setAttribute('id', i);
+      //applies bomb class based on the shuffled array
+      square.classList.add(shuffledArray[i]);
       //places square div into grid when created
       grid.appendChild(square);
       //adds the create square into the squares array
       squares.push(square);
+    }
+
+    //add numbers to squares
+    for (let i = 0; i < squares.length; i++) {
+      let total = 0;
+      const isLeftEdge = i % width === 0;
+      const isRightEdge = i % width === width - 1;
+
+      if (squares[i].classList.contains('safe')) {
+        if (i > 0 && !isLeftEdge && squares[i - 1].classList.contains('bomb'))
+          total++;
+        if (
+          i > 9 &&
+          !isRightEdge &&
+          squares[i + 1 - width].classList.contains('bomb')
+        )
+          total++;
+        if (i > 10 && squares[i - width].classList.contains('bomb')) total++;
+        if (
+          i > 11 &&
+          !isLeftEdge &&
+          squares[i - 1 - width].classList.contains('bomb')
+        )
+          total++;
+        if (i < 98 && !isRightEdge && squares[i + 1].classList.contains('bomb'))
+          total++;
+        if (
+          i < 90 &&
+          !isLeftEdge &&
+          squares[i - 1 + width].classList.contains('bomb')
+        )
+          total++;
+        if (
+          i < 88 &&
+          !isRightEdge &&
+          squares[i + 1 + width].classList.contains('bomb')
+        )
+          total++;
+        if (i < 89 && squares[i + width].classList.contains('bomb')) total++;
+        squares[i].setAttribute('data', total);
+        if (total > 0) {
+          squares[i].innerText = `${total}`;
+        }
+      }
+
+      console.log(squares[i]);
     }
   }
   createBoard();
