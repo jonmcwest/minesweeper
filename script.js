@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', () => {
   //Current Grid width in tiles
   let width = 10;
   let tiles = [];
-  let bombCount = 15;
+  let bombCount = 2;
   let isGameOver = false;
 
   //Create the play board
@@ -83,7 +83,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (tile.classList.contains('checked') || tile.classList.contains('flag'))
       return;
     if (tile.classList.contains('bomb')) {
-      isGameOver = true;
+      gameOver();
     } else {
       let total = tile.getAttribute('data');
       if (total != 0) {
@@ -104,45 +104,113 @@ document.addEventListener('DOMContentLoaded', () => {
     setTimeout(() => {
       if (currentId > 0 && !isLeftEdge) {
         const newId = tiles[parseInt(currentId) - 1].id;
-        const newTile = document.getElementById(newId);
-        click(newTile);
+        //const newId = parseInt(currentId) - 1   ....refactor
+        const newSquare = document.getElementById(newId);
+        click(newSquare);
       }
       if (currentId > 9 && !isRightEdge) {
         const newId = tiles[parseInt(currentId) + 1 - width].id;
-        const newTile = document.getElementById(newId);
-        click(newTile);
+        //const newId = parseInt(currentId) +1 -width   ....refactor
+        const newSquare = document.getElementById(newId);
+        click(newSquare);
       }
       if (currentId > 10) {
-        const newId = tiles[parseInt(currentId) - width].id;
-        const newTile = document.getElementById(newId);
-        click(newTile);
+        const newId = tiles[parseInt(currentId - width)].id;
+        //const newId = parseInt(currentId) -width   ....refactor
+        const newSquare = document.getElementById(newId);
+        click(newSquare);
       }
-      if (currentId > 10 && !isLeftEdge) {
+      if (currentId > 11 && !isLeftEdge) {
         const newId = tiles[parseInt(currentId) - 1 - width].id;
-        const newTile = document.getElementById(newId);
-        click(newTile);
+        //const newId = parseInt(currentId) -1 -width   ....refactor
+        const newSquare = document.getElementById(newId);
+        click(newSquare);
       }
       if (currentId < 98 && !isRightEdge) {
         const newId = tiles[parseInt(currentId) + 1].id;
-        const newTile = document.getElementById(newId);
-        click(newTile);
+        //const newId = parseInt(currentId) +1   ....refactor
+        const newSquare = document.getElementById(newId);
+        click(newSquare);
       }
       if (currentId < 90 && !isLeftEdge) {
         const newId = tiles[parseInt(currentId) - 1 + width].id;
-        const newTile = document.getElementById(newId);
-        click(newTile);
+        //const newId = parseInt(currentId) -1 +width   ....refactor
+        const newSquare = document.getElementById(newId);
+        click(newSquare);
       }
       if (currentId < 88 && !isRightEdge) {
         const newId = tiles[parseInt(currentId) + 1 + width].id;
-        const newTile = document.getElementById(newId);
-        click(newTile);
+        //const newId = parseInt(currentId) +1 +width   ....refactor
+        const newSquare = document.getElementById(newId);
+        click(newSquare);
       }
-      if (currentId < 80 && !isRightEdge) {
+      if (currentId < 89) {
         const newId = tiles[parseInt(currentId) + width].id;
-        const newTile = document.getElementById(newId);
-        click(newTile);
+        //const newId = parseInt(currentId) +width   ....refactor
+        const newSquare = document.getElementById(newId);
+        click(newSquare);
       }
-    }, 1000);
+      if (currentId > 0 && !isLeftEdge) {
+        const newId = tiles[parseInt(currentId) - 1].id;
+        //const newId = parseInt(currentId) - 1   ....refactor
+        const newSquare = document.getElementById(newId);
+        click(newSquare);
+      }
+      if (currentId > 9 && !isRightEdge) {
+        const newId = tiles[parseInt(currentId) + 1 - width].id;
+        //const newId = parseInt(currentId) +1 -width   ....refactor
+        const newSquare = document.getElementById(newId);
+        click(newSquare);
+      }
+      if (currentId > 10) {
+        const newId = tiles[parseInt(currentId - width)].id;
+        //const newId = parseInt(currentId) -width   ....refactor
+        const newSquare = document.getElementById(newId);
+        click(newSquare);
+      }
+      if (currentId > 11 && !isLeftEdge) {
+        const newId = tiles[parseInt(currentId) - 1 - width].id;
+        //const newId = parseInt(currentId) -1 -width   ....refactor
+        const newSquare = document.getElementById(newId);
+        click(newSquare);
+      }
+      if (currentId < 98 && !isRightEdge) {
+        const newId = tiles[parseInt(currentId) + 1].id;
+        //const newId = parseInt(currentId) +1   ....refactor
+        const newSquare = document.getElementById(newId);
+        click(newSquare);
+      }
+      if (currentId < 90 && !isLeftEdge) {
+        const newId = tiles[parseInt(currentId) - 1 + width].id;
+        //const newId = parseInt(currentId) -1 +width   ....refactor
+        const newSquare = document.getElementById(newId);
+        click(newSquare);
+      }
+      if (currentId < 88 && !isRightEdge) {
+        const newId = tiles[parseInt(currentId) + 1 + width].id;
+        //const newId = parseInt(currentId) +1 +width   ....refactor
+        const newSquare = document.getElementById(newId);
+        click(newSquare);
+      }
+      if (currentId < 89) {
+        const newId = tiles[parseInt(currentId) + width].id;
+        //const newId = parseInt(currentId) +width   ....refactor
+        const newSquare = document.getElementById(newId);
+        click(newSquare);
+      }
+    }, 250);
+  }
+
+  function gameOver(square) {
+    console.log('BOOOOOOOOM! Ur dead!');
+    isGameOver = true;
+
+    //Shows every hidden bomb
+    tiles.forEach((tile) => {
+      if (tile.classList.contains('bomb')) {
+        tile.innerHTML = 'BOOM';
+      }
+    });
   }
 
   //Fisher Yates Shuffle Method
