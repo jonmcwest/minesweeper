@@ -7,8 +7,17 @@
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
+    <button id="particle-btn">PARTICLES</button>
+    <div id="particle-div"></div>
+
     <div class="grid"></div>
+
     <script src="script.js"></script>
     <script src="particles/particles.js"></script>
+    <script>
+      document.getElementById('particle-btn').addEventListener('click', () => {
+        particlesJS.load('particle-div', 'particle-cfg.json');
+      });
+    </script>
   </body>
 </html>
