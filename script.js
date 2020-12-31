@@ -3,9 +3,11 @@ document.addEventListener('DOMContentLoaded', () => {
   //Current Grid width in tiles
   let width = 10;
   let tiles = [];
-  let bombCount = 1;
+  let bombCount = 10;
   let flags = 0;
   let isGameOver = false;
+  const music = new Audio('./music.mp3');
+  music.currentTime = 26.5;
 
   //Create the play board
   function createBoard() {
@@ -101,6 +103,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function click(tile) {
+    music.play();
     let currentId = tile.id;
     if (isGameOver) return;
     if (tile.classList.contains('checked') || tile.classList.contains('flag'))

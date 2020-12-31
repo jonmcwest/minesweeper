@@ -3,11 +3,14 @@
 }
 
 body {
+  margin: 0;
   height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: #111111;
+  background-image: url(bg.jpg);
+  background-size: cover;
+  background-position: center;
   font-family: Arial, Helvetica, sans-serif;
 }
 
@@ -26,19 +29,30 @@ body {
   justify-content: center;
   cursor: pointer;
   user-select: none;
-  background-color: rgb(71, 214, 233);
-
-  box-shadow: 0px 0px 10px rgba(71, 214, 233, 1);
-  transition: 1s ease-in-out;
-  color: white;
+  background-color: rgba(0, 92, 95, 0.3);
+  border: 1px solid rgb(59, 178, 194);
+  box-shadow: 0px 0px 10px rgba(77, 234, 255, 0.3);
+  transition: 0.2s;
   font-weight: 700;
+  transform: scale(0.8) rotate(-90deg);
+}
+
+.grid div:hover {
+  box-shadow: 0px 0px 20px rgba(71, 214, 233, 1);
+  background-color: rgba(59, 178, 194, 0.7);
+  transform: scale(0.9) rotate(-90deg);
 }
 
 .checked {
-  background-color: rgba(0, 57, 95, 0.1) !important;
+  transition: 1s !important;
+  background-color: rgba(59, 194, 66, 0.1) !important;
   box-shadow: none !important;
-  transform: scale(0.8);
-  border: 1px solid rgb(59, 178, 194);
+  transform: scale(0.6) rotate(0deg) !important;
+  border: 1px solid rgb(59, 194, 66) !important;
+  border-radius: 3px;
+  color: rgb(70, 245, 79);
+  font-size: 30px;
+  cursor: auto !important;
 }
 
 /* .bomb {
