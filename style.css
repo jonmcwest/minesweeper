@@ -22,10 +22,11 @@ body {
   bottom: 20px;
   right: 20px;
   color: white;
+  padding: 0 5px;
 }
 
 .settings-bar .btn {
-  padding: 10px;
+  padding: 10px 5px;
 }
 
 #particle-div {
@@ -38,10 +39,12 @@ body {
 }
 
 .grid {
+  position: relative;
   height: 400px;
   width: 400px;
   display: flex;
   flex-wrap: wrap;
+  z-index: 1;
 }
 
 .grid div {
@@ -58,6 +61,8 @@ body {
   transition: 0.2s;
   font-weight: 700;
   transform: scale(0.8) rotate(-90deg);
+  position: relative;
+  z-index: 10;
 }
 
 .grid div:hover {
@@ -87,6 +92,14 @@ body {
   height: 50%;
   background-color: rgb(255, 39, 255);
   border-radius: 5px;
+}
+
+.exploded {
+  background-color: red !important;
+}
+
+.game-over {
+  color: white;
 }
 
 @keyframes flash {

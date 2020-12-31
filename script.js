@@ -10,6 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
   music.volume = 0.2;
   music.currentTime = 26.5;
   const heartBeat = new Audio('./heartbeat.mp3');
+  const explosionSFX = new Audio('./explosion.mp3');
 
   particlesJS.load('particle-div', 'particle-cfg.json');
 
@@ -38,10 +39,18 @@ document.addEventListener('DOMContentLoaded', () => {
       //regular click
       tile.addEventListener('click', (e) => {
         click(tile);
+        heartBeat.pause();
+        heartBeat.currentTime = 0;
       });
 
       tile.addEventListener('mouseenter', (e) => {
-        heartBeat.play();
+        if (
+          !tile.classList.contains('flag') &&
+          !tile.classList.contains('checked') &&
+          !isGameOver
+        ) {
+          heartBeat.play();
+        }
       });
 
       tile.addEventListener('mouseleave', (e) => {
@@ -52,6 +61,8 @@ document.addEventListener('DOMContentLoaded', () => {
       tile.oncontextmenu = function (e) {
         e.preventDefault();
         addFlag(tile);
+        heartBeat.pause();
+        heartBeat.currentTime = 0;
       };
     }
 
@@ -122,7 +133,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (tile.classList.contains('checked') || tile.classList.contains('flag'))
       return;
     if (tile.classList.contains('bomb')) {
-      gameOver();
+      gameOver(tile);
     } else {
       let total = tile.getAttribute('data');
       if (total != 0) {
@@ -237,18 +248,26 @@ document.addEventListener('DOMContentLoaded', () => {
         const newSquare = document.getElementById(newId);
         click(newSquare);
       }
-    }, 500);
+    }, 250);
   }
 
   function gameOver(tile) {
     console.log('BOOOOOOOOM! Ur dead!');
     isGameOver = true;
+    tile.classList.add('exploded');
+    explosionSFX.play();
 
     //Shows every hidden bomb
-    tiles.forEach((tile) => {
-      if (tile.classList.contains('bomb')) {
-        tile.innerHTML = 'BOOM';
-      }
+
+    tiles.forEach((tile, i) => {
+      setTimeout(() => {
+        if (tile.classList.contains('bomb')) {
+          tile.classList.add('exploded');
+          explosionSFX.pause();
+          explosionSFX.currentTime = 0;
+          explosionSFX.play();
+        }
+      }, i * 40);
     });
   }
 
