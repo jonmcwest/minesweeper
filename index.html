@@ -7,17 +7,20 @@
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
-    <button id="particle-btn">PARTICLES</button>
-    <div id="particle-div"></div>
+    <div class="settings-bar">
+      <div class="btn" id="particle-btn"><i class="fas fa-braille"></i></div>
+      <div class="btn" id="sound-btn"><i class="fas fa-volume-mute"></i></div>
+    </div>
 
     <div class="grid"></div>
+    <div id="particle-div"></div>
 
     <script src="script.js"></script>
-    <script src="particles/particles.js"></script>
-    <script>
-      document.getElementById('particle-btn').addEventListener('click', () => {
-        particlesJS.load('particle-div', 'particle-cfg.json');
-      });
-    </script>
+    <script src="particles/particles.min.js"></script>
+
+    <script
+      src="https://kit.fontawesome.com/40ffac7a6e.js"
+      crossorigin="anonymous"
+    ></script>
   </body>
 </html>

@@ -7,7 +7,11 @@ document.addEventListener('DOMContentLoaded', () => {
   let flags = 0;
   let isGameOver = false;
   const music = new Audio('./music.mp3');
+  music.volume = 0.2;
   music.currentTime = 26.5;
+  const heartBeat = new Audio('./heartbeat.mp3');
+
+  particlesJS.load('particle-div', 'particle-cfg.json');
 
   //Create the play board
   function createBoard() {
@@ -34,6 +38,15 @@ document.addEventListener('DOMContentLoaded', () => {
       //regular click
       tile.addEventListener('click', (e) => {
         click(tile);
+      });
+
+      tile.addEventListener('mouseenter', (e) => {
+        heartBeat.play();
+      });
+
+      tile.addEventListener('mouseleave', (e) => {
+        heartBeat.pause();
+        heartBeat.currentTime = 0;
       });
 
       tile.oncontextmenu = function (e) {
@@ -91,7 +104,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!tile.classList.contains('checked') && flags < bombCount) {
       if (!tile.classList.contains('flag')) {
         tile.classList.add('flag');
-        tile.innerHTML = 'FLAG';
+        tile.innerHTML = '<span class="flag-block"><span>';
         flags++;
         checkWin();
       } else {

@@ -9,9 +9,23 @@ body {
   align-items: center;
   justify-content: center;
   background-image: url(bg.jpg);
+
   background-size: cover;
   background-position: center;
   font-family: Arial, Helvetica, sans-serif;
+}
+
+.settings-bar {
+  display: flex;
+  background-color: rgba(0, 92, 95, 0.3);
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  color: white;
+}
+
+.settings-bar .btn {
+  padding: 10px;
 }
 
 #particle-div {
@@ -52,6 +66,10 @@ body {
   transform: scale(0.9) rotate(-90deg);
 }
 
+.grid:hover + #particle-div {
+  animation: flash 1s infinite alternate-reverse;
+}
+
 .checked {
   transition: 1s !important;
   background-color: rgba(59, 194, 66, 0.1) !important;
@@ -64,6 +82,18 @@ body {
   cursor: auto !important;
 }
 
-/* .bomb {
-  background-color: red;
-} */
+.flag-block {
+  width: 50%;
+  height: 50%;
+  background-color: rgb(255, 39, 255);
+  border-radius: 5px;
+}
+
+@keyframes flash {
+  from {
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+  to {
+    background-color: transparent;
+  }
+}
