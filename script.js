@@ -6,11 +6,23 @@ document.addEventListener('DOMContentLoaded', () => {
   let bombCount = 10;
   let flags = 0;
   let isGameOver = false;
+  const gameOverTitle = document.getElementById('gameOverTitle');
+  const gameOverImage = document.getElementById('gameOverImage');
   const music = new Audio('./music.mp3');
-  music.volume = 0.2;
+  music.volume = 0.1;
   music.currentTime = 26.5;
   const heartBeat = new Audio('./heartbeat.mp3');
+  heartBeat.volume = 0.4;
   const explosionSFX = new Audio('./explosion.mp3');
+  explosionSFX.volume = 0.3;
+  const flagSFX = new Audio('./flag.wav');
+  explosionSFX.volume = 0.7;
+  const winSFX = new Audio('./win.wav');
+  const loseSFX = new Audio('./lose.wav');
+  loseSFX.volume = 0.2;
+  const gameOverVox = new Audio('./gameovervox.wav');
+  const tileClose = new Audio('./tileclose.wav');
+  tileClose.volume = 1;
 
   particlesJS.load('particle-div', 'particle-cfg.json');
 
@@ -117,6 +129,7 @@ document.addEventListener('DOMContentLoaded', () => {
         tile.classList.add('flag');
         tile.innerHTML = '<span class="flag-block"><span>';
         flags++;
+        flagSFX.play();
         checkWin();
       } else {
         tile.classList.remove('flag');
@@ -133,12 +146,13 @@ document.addEventListener('DOMContentLoaded', () => {
     if (tile.classList.contains('checked') || tile.classList.contains('flag'))
       return;
     if (tile.classList.contains('bomb')) {
-      gameOver(tile);
+      gameOver(tile, 'lose');
     } else {
       let total = tile.getAttribute('data');
       if (total != 0) {
         tile.classList.add('checked');
         tile.innerHTML = total;
+        tile.style.opacity = 1;
         return;
       }
       checkTile(tile, currentId);
@@ -152,6 +166,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const isRightEdge = currentId % width === width - 1;
 
     setTimeout(() => {
+      tileClose.play();
       if (currentId > 0 && !isLeftEdge) {
         const newId = tiles[parseInt(currentId) - 1].id;
         //const newId = parseInt(currentId) - 1   ....refactor
@@ -251,24 +266,45 @@ document.addEventListener('DOMContentLoaded', () => {
     }, 250);
   }
 
-  function gameOver(tile) {
-    console.log('BOOOOOOOOM! Ur dead!');
-    isGameOver = true;
-    tile.classList.add('exploded');
-    explosionSFX.play();
+  function gameOver(tile, result) {
+    gameOverTitle.style.display = 'block';
 
-    //Shows every hidden bomb
-
-    tiles.forEach((tile, i) => {
+    if (result === 'win') {
+      gameOverImage.src = '/img/win.png';
+      winSFX.play();
+      music.pause();
       setTimeout(() => {
-        if (tile.classList.contains('bomb')) {
-          tile.classList.add('exploded');
-          explosionSFX.pause();
-          explosionSFX.currentTime = 0;
-          explosionSFX.play();
-        }
-      }, i * 40);
-    });
+        gameOverTitle.style.opacity = 1;
+      }, 1000);
+    }
+
+    if (result === 'lose') {
+      setTimeout(() => {
+        gameOverTitle.style.opacity = 1;
+        gameOverVox.play();
+      }, 4000);
+      gameOverImage.src = '/img/lose.png';
+      tile.classList.add('exploded');
+      explosionSFX.play();
+      loseSFX.play();
+      music.pause();
+      //Shows every hidden bomb
+      tiles.forEach((tile, i) => {
+        setTimeout(() => {
+          if (
+            tile.classList.contains('bomb') &&
+            !tile.classList.contains('exploded')
+          ) {
+            tile.classList.add('exploded');
+            explosionSFX.pause();
+            explosionSFX.currentTime = 0;
+            explosionSFX.play();
+          }
+        }, i * 40);
+      });
+    }
+
+    isGameOver = true;
   }
 
   function checkWin() {
@@ -282,8 +318,7 @@ document.addEventListener('DOMContentLoaded', () => {
         matches++;
       }
       if (matches === bombCount) {
-        console.log('Win');
-        isGameOver = true;
+        gameOver('', 'win');
       }
     }
   }
