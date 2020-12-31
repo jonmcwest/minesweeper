@@ -1,13 +1,30 @@
+const loadScreen = document.getElementById('loadscreen');
+const loadWheel = document.getElementById('loading');
+const connect = document.getElementById('connect');
+const ambientMusic = new Audio('./ambient.mp3');
+
+connect.addEventListener('click', () => {
+  loadScreen.style.display = 'none';
+  ambientMusic.play();
+});
+
 document.addEventListener('DOMContentLoaded', () => {
+  setTimeout(() => {
+    loading.style.display = 'none';
+    connect.style.display = 'block';
+    connect.style.opacity = 1;
+  }, 3000);
+
   const grid = document.querySelector('.grid');
   //Current Grid width in tiles
   let width = 10;
   let tiles = [];
-  let bombCount = 10;
+  let bombCount = 4;
   let flags = 0;
   let isGameOver = false;
   const gameOverTitle = document.getElementById('gameOverTitle');
   const gameOverImage = document.getElementById('gameOverImage');
+
   const music = new Audio('./music.mp3');
   music.volume = 0.1;
   music.currentTime = 26.5;
