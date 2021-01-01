@@ -30,7 +30,16 @@
     <div class="game-over" id="gameOverTitle">
       <img id="gameOverImage" src="img/lose.png" alt="" srcset="" />
     </div>
-    <div class="grid"></div>
+    <div class="game-wrapper">
+      <div class="grid"></div>
+      <div class="stats-wrapper">
+        <ul>
+          <li>Flags Left: <span id="flagsRemaining">10</span></li>
+          <li id="timer">00:00</li>
+        </ul>
+      </div>
+    </div>
+
     <div id="particle-div"></div>
 
     <script src="script.js"></script>

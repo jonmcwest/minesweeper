@@ -6,17 +6,27 @@
 //pause between difficulty and init
 //red tint on explosion
 //export scripts into bitesize modules and integrate OOP
+//resize grid for mobile
 
+//Global scope declarations
+
+///Menu screen declarations
 const loadScreen = document.getElementById('loadScreen');
-const menuScreen = document.getElementById('menuScreen');
 const loadWheel = document.getElementById('loading');
 const connect = document.getElementById('connect');
-const ambientMusic = new Audio('./ambient.mp3');
-ambientMusic.loop = true;
 
+const menuScreen = document.getElementById('menuScreen');
+const easyDiff = document.getElementById('easy');
+const mediumDiff = document.getElementById('medium');
+const hardDiff = document.getElementById('hard');
+
+///UI Declarations
 const gameOverTitle = document.getElementById('gameOverTitle');
 const gameOverImage = document.getElementById('gameOverImage');
+const flagsRemaining = document.getElementById('flagsRemaining');
+const timer = document.getElementById('timer');
 
+///Audio Declarations
 const music = new Audio('./music.mp3');
 music.volume = 0.1;
 music.currentTime = 5;
@@ -24,7 +34,7 @@ const heartBeat = new Audio('./heartbeat.mp3');
 heartBeat.volume = 0.4;
 const explosionSFX = new Audio('./explosion.mp3');
 explosionSFX.volume = 0.3;
-const flagSFX = new Audio('./flag.wav');
+const flagSFX = new Audio('./flag.wav', { loop: 'true' });
 explosionSFX.volume = 0.4;
 const winSFX = new Audio('./win.wav');
 const loseSFX = new Audio('./lose.wav');
@@ -32,10 +42,11 @@ loseSFX.volume = 0.2;
 const gameOverVox = new Audio('./gameovervox.wav');
 const tileClose = new Audio('./tileclose.wav');
 tileClose.volume = 1;
+const ambientMusic = new Audio('./ambient.mp3');
+ambientMusic.loop = true;
 
-const easyDiff = document.getElementById('easy');
-const mediumDiff = document.getElementById('medium');
-const hardDiff = document.getElementById('hard');
+//Score Declarations
+let totalSecs = 0;
 
 connect.addEventListener('click', () => {
   loadScreen.style.display = 'none';
@@ -47,7 +58,7 @@ document.addEventListener('DOMContentLoaded', () => {
     loading.style.display = 'none';
     connect.style.display = 'block';
     connect.style.opacity = 1;
-  }, 3000);
+  }, 10);
 
   easyDiff.addEventListener('click', () => {
     initGame(10);
@@ -59,6 +70,28 @@ document.addEventListener('DOMContentLoaded', () => {
     initGame(30);
   });
 
+  function startTimer() {
+    let secs = 0;
+    let mins = 0;
+
+    setInterval(() => {
+      if (secs < 59) {
+        secs++;
+        totalSecs++;
+        timer.innerHTML =
+          `${mins < 10 ? '0' + mins : mins}:` +
+          `${secs < 10 ? '0' + secs : secs}`;
+      } else {
+        secs = 0;
+        totalSecs++;
+        mins++;
+        timer.innerHTML =
+          `${mins < 10 ? '0' + mins : mins}:` +
+          `${secs < 10 ? '0' + secs : secs}`;
+      }
+    }, 1000);
+  }
+
   function initGame(bombs) {
     const grid = document.querySelector('.grid');
     grid.innerHTML = '';
@@ -67,6 +100,9 @@ document.addEventListener('DOMContentLoaded', () => {
     menuScreen.style.display = 'none';
     gameOverTitle.style.display = 'none';
     gameOverTitle.style.opacity = 0;
+    let flagCount = bombs;
+    flagsRemaining.innerHTML = `${flagCount}`;
+    startTimer();
 
     //Current Grid width in tiles
     let width = 10;
@@ -180,12 +216,16 @@ document.addEventListener('DOMContentLoaded', () => {
           tile.classList.add('flag');
           tile.innerHTML = '<span class="flag-block"><span>';
           flags++;
+          flagCount--;
+          flagsRemaining.innerHTML = flagCount;
           flagSFX.play();
           checkWin();
         } else {
           tile.classList.remove('flag');
           tile.innerHTML = '';
           flags--;
+          flagCount++;
+          flagsRemaining.innerHTML = flagCount;
         }
       }
     }
