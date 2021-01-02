@@ -124,10 +124,15 @@ body {
   justify-content: center;
   font-size: 2rem;
   color: white;
+  text-align: center;
 }
 
 #score {
   display: none;
+}
+
+#highScore {
+  color: rgb(70, 245, 79);
 }
 
 #easy:hover {
@@ -141,13 +146,6 @@ body {
 #hard:hover {
   color: rgb(245, 70, 70);
   text-shadow: 0 0 10px rgb(245, 70, 70);
-}
-
-.game-wrapper {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: start;
 }
 
 .stats-wrapper {
@@ -174,7 +172,6 @@ body {
   position: absolute;
   bottom: 20px;
   right: 20px;
-
   padding: 0 5px;
 }
 
@@ -202,10 +199,19 @@ a:visited {
   animation: flash 3s infinite alternate-reverse;
 }
 
+.game-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: start;
+  width: 35vw;
+  height: 35vw;
+}
+
 .grid {
   position: relative;
-  height: 410px;
-  width: 410px;
+  height: 90%;
+  width: 90%;
   display: flex;
   flex-wrap: wrap;
   z-index: 1;
@@ -215,8 +221,8 @@ a:visited {
 }
 
 .grid div {
-  height: 40px;
-  width: 40px;
+  height: 10%;
+  width: 10%;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -314,5 +320,65 @@ a:visited {
   40%,
   60% {
     transform: translate3d(4px, 0, 0);
+  }
+}
+
+@media (max-width: 640px) {
+  body {
+    justify-content: center;
+  }
+
+  .logo {
+    width: 90vw;
+    margin-top: -100px;
+  }
+
+  .grid {
+    width: 90vw;
+    height: 90vw;
+  }
+
+  .game-wrapper {
+    width: 90vw;
+    height: 90vw;
+  }
+
+  .load-wheel {
+    width: 100%;
+  }
+
+  .menu-screen ul {
+    flex-direction: column;
+  }
+
+  .menu-screen ul li {
+    font-size: 1.5rem;
+    cursor: pointer;
+    user-select: none;
+    transition: 0.5s;
+    margin: 10px 0;
+  }
+
+  .settings-bar {
+    display: flex;
+    background-color: rgba(0, 92, 95, 0.3);
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    padding: 0 10px;
+    width: 100vw;
+  }
+
+  .settings-bar p,
+  .settings-bar p a {
+    display: inline;
+  }
+
+  .game-over {
+    width: 90vw;
+  }
+
+  .menu-screen h2 {
+    text-align: center;
   }
 }
