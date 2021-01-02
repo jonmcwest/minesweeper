@@ -25,7 +25,7 @@ const highScore = document.getElementById('highScore');
 const gameOverTitle = document.getElementById('gameOverTitle');
 const gameOverImage = document.getElementById('gameOverImage');
 const flagsRemaining = document.getElementById('flagsRemaining');
-const timer = document.getElementById('timer');
+const time = document.getElementById('timer');
 
 ///Audio Declarations
 const music = new Audio('./music.mp3');
@@ -91,34 +91,29 @@ document.addEventListener('DOMContentLoaded', () => {
     grid.innerHTML = '';
     isGameOver = false;
     let totalSecs = 0;
+    let secs = 0;
+    let mins = 0;
+    time.innerHTML = '00:00';
 
-    startTimer(totalSecs);
+    const timerInterval = setInterval(timer, 1000);
 
-    function startTimer(startSecs) {
-      let secs = startSecs;
-      let mins = secs / 60;
-
-      setInterval(() => {
-        if (!isGameOver) {
-          if (secs < 59) {
-            secs++;
-            totalSecs++;
-            timer.innerHTML =
-              `${mins < 10 ? '0' + mins : mins}:` +
-              `${secs < 10 ? '0' + secs : secs}`;
-          } else {
-            secs = 0;
-            totalSecs++;
-            mins++;
-            timer.innerHTML =
-              `${mins < 10 ? '0' + mins : mins}:` +
-              `${secs < 10 ? '0' + secs : secs}`;
-          }
-        } else if (gameOver) {
-          return;
-          secs;
+    function timer() {
+      if (!isGameOver) {
+        totalSecs++;
+        if (secs < 59) {
+          secs++;
+        } else {
+          secs = 0;
+          mins++;
         }
-      }, 1000);
+        time.innerHTML =
+          `${mins < 10 ? '0' + mins : mins}:` +
+          `${secs < 10 ? '0' + secs : secs}`;
+      } else if (isGameOver) {
+        totalSecs = 0;
+        secs = 0;
+      }
+      console.log(totalSecs);
     }
 
     //Current Grid width in tiles
@@ -374,14 +369,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function gameOver(tile, result) {
       gameOverTitle.style.display = 'block';
+      clearInterval(timerInterval);
+      let finalSecs = totalSecs;
+      console.log(finalSecs + 'final score');
 
       if (result === 'win') {
         if (bombCount === 10) {
-          gameScore = topScore - totalSecs * easyScore;
+          gameScore = topScore - finalSecs * easyScore;
         } else if (bombCount === 20) {
-          gameScore = topScore - totalSecs * mediumScore;
+          gameScore = topScore - finalSecs * mediumScore;
         } else {
-          gameScore = topScore - totalSecs * highScore;
+          gameScore = topScore - finalSecs * highScore;
         }
         highScore.innerHTML = gameScore;
 
