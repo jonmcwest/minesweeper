@@ -1,0 +1,23 @@
+{
+  "name": "minesweeper",
+  "version": "1.0.0",
+  "description": "cybersweeper! minesweeper remake",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jonmccallum96/minesweeper.git"
+  },
+  "author": "Jon McCallum",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jonmccallum96/minesweeper/issues"
+  },
+  "homepage": "https://github.com/jonmccallum96/minesweeper#readme",
+  "dependencies": {
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1"
+  }
+}

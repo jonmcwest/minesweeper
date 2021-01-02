@@ -1,8 +1,4 @@
 //TODO
-//random music
-//export scripts into bitesize modules and integrate OOP
-//resize grid for mobile
-//add key
 
 //Global scope declarations
 
@@ -27,23 +23,23 @@ const flagsRemaining = document.getElementById('flagsRemaining');
 const time = document.getElementById('timer');
 
 ///Audio Declarations
-const music = new Audio('./music.mp3');
+const music = new Audio('./audio/music.mp3');
 music.volume = 0.1;
 music.currentTime = 5;
 music.loop = true;
-const heartBeat = new Audio('./heartbeat.mp3');
+const heartBeat = new Audio('./audio/heartbeat.mp3');
 heartBeat.volume = 0.4;
-const explosionSFX = new Audio('./explosion.mp3');
+const explosionSFX = new Audio('./audio/explosion.mp3');
 explosionSFX.volume = 0.3;
-const flagSFX = new Audio('./flag.wav', { loop: 'true' });
+const flagSFX = new Audio('./audio/flag.wav', { loop: 'true' });
 flagSFX.volume = 0.3;
-const winSFX = new Audio('./win.wav');
-const loseSFX = new Audio('./lose.wav');
+const winSFX = new Audio('./audio/win.wav');
+const loseSFX = new Audio('./audio/lose.wav');
 loseSFX.volume = 0.2;
-const gameOverVox = new Audio('./gameovervox.wav');
-const tileClose = new Audio('./tileclose.wav');
+const gameOverVox = new Audio('./audio/gameovervox.wav');
+const tileClose = new Audio('./audio/tileclose.wav');
 tileClose.volume = 1;
-const ambientMusic = new Audio('./ambient.mp3');
+const ambientMusic = new Audio('./audio/ambient.mp3');
 ambientMusic.loop = true;
 
 //Functionality Declarations
