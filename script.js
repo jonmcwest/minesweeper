@@ -51,36 +51,11 @@ const grid = document.querySelector('.grid');
 let isGameOver = false;
 
 ///Score Declarations
-let totalSecs = 0;
 const topScore = 99999;
 const easyScore = 1253;
 const mediumScore = 727;
 const hardScore = 256;
 let gameScore = 0;
-
-function startTimer() {
-  let secs = totalSecs;
-  let mins = totalSecs / 60;
-
-  setInterval(() => {
-    if (!isGameOver) {
-      if (secs < 59) {
-        secs++;
-        totalSecs++;
-        timer.innerHTML =
-          `${mins < 10 ? '0' + mins : mins}:` +
-          `${secs < 10 ? '0' + secs : secs}`;
-      } else {
-        secs = 0;
-        totalSecs++;
-        mins++;
-        timer.innerHTML =
-          `${mins < 10 ? '0' + mins : mins}:` +
-          `${secs < 10 ? '0' + secs : secs}`;
-      }
-    }
-  }, 1000);
-}
 
 connect.addEventListener('click', () => {
   loadScreen.style.display = 'none';
@@ -114,8 +89,37 @@ document.addEventListener('DOMContentLoaded', () => {
     flagsRemaining.innerHTML = `${flagCount}`;
     gameScore = 0;
     grid.innerHTML = '';
+    isGameOver = false;
+    let totalSecs = 0;
 
-    startTimer();
+    startTimer(totalSecs);
+
+    function startTimer(startSecs) {
+      let secs = startSecs;
+      let mins = secs / 60;
+
+      setInterval(() => {
+        if (!isGameOver) {
+          if (secs < 59) {
+            secs++;
+            totalSecs++;
+            timer.innerHTML =
+              `${mins < 10 ? '0' + mins : mins}:` +
+              `${secs < 10 ? '0' + secs : secs}`;
+          } else {
+            secs = 0;
+            totalSecs++;
+            mins++;
+            timer.innerHTML =
+              `${mins < 10 ? '0' + mins : mins}:` +
+              `${secs < 10 ? '0' + secs : secs}`;
+          }
+        } else if (gameOver) {
+          return;
+          secs;
+        }
+      }, 1000);
+    }
 
     //Current Grid width in tiles
     let width = 10;
