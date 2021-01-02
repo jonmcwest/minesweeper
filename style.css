@@ -17,6 +17,7 @@ body {
   background-size: cover;
   background-position: center;
   font-family: 'Nova Flat', cursive;
+  flex-direction: column;
 }
 
 .loadscreen {
@@ -28,6 +29,7 @@ body {
   top: 0;
   left: 0;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   transition: 1s;
@@ -59,6 +61,11 @@ body {
   color: rgb(70, 245, 79);
   text-shadow: 0 0 10px rgba(70, 245, 79, 1);
   box-shadow: 0px 0px 50px rgb(70, 245, 79);
+}
+
+.logo {
+  width: 30vw;
+  margin-bottom: 2rem;
 }
 
 .menu-screen {
@@ -112,6 +119,7 @@ body {
   width: 100vw;
   height: 100vh;
   background-color: black;
+
   align-items: center;
   justify-content: center;
   font-size: 2rem;

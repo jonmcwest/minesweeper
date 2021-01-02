@@ -1,9 +1,5 @@
 //TODO
 //random music
-//score screen after DONE
-//timer DONE
-//remaining flags DONE
-//pause between difficulty and init
 //red tint on explosion
 //export scripts into bitesize modules and integrate OOP
 //resize grid for mobile
@@ -39,7 +35,7 @@ heartBeat.volume = 0.4;
 const explosionSFX = new Audio('./explosion.mp3');
 explosionSFX.volume = 0.3;
 const flagSFX = new Audio('./flag.wav', { loop: 'true' });
-explosionSFX.volume = 0.4;
+flagSFX.volume = 0.3;
 const winSFX = new Audio('./win.wav');
 const loseSFX = new Audio('./lose.wav');
 loseSFX.volume = 0.2;
