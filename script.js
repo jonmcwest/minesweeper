@@ -1,8 +1,8 @@
 //TODO
 //random music
-//red tint on explosion
 //export scripts into bitesize modules and integrate OOP
 //resize grid for mobile
+//add key
 
 //Global scope declarations
 
@@ -30,6 +30,7 @@ const time = document.getElementById('timer');
 const music = new Audio('./music.mp3');
 music.volume = 0.1;
 music.currentTime = 5;
+music.loop = true;
 const heartBeat = new Audio('./heartbeat.mp3');
 heartBeat.volume = 0.4;
 const explosionSFX = new Audio('./explosion.mp3');
@@ -48,6 +49,7 @@ ambientMusic.loop = true;
 //Functionality Declarations
 const grid = document.querySelector('.grid');
 let isGameOver = false;
+const particleDiv = document.getElementById('particle-div');
 
 ///Score Declarations
 const topScore = 999999;
@@ -66,7 +68,7 @@ document.addEventListener('DOMContentLoaded', () => {
     loading.style.display = 'none';
     connect.style.display = 'block';
     connect.style.opacity = 1;
-  }, 10);
+  }, 1000);
 
   easyDiff.addEventListener('click', () => {
     music.play();
@@ -109,6 +111,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let secs = 0;
     let mins = 0;
     time.innerHTML = '00:00';
+    grid.style.backgroundColor = 'transparent';
 
     const timerInterval = setInterval(timer, 1000);
 
@@ -401,12 +404,12 @@ document.addEventListener('DOMContentLoaded', () => {
           gameScore = topScore - finalSecs * highScore;
         }
         highScore.innerHTML = gameScore;
-
+        grid.style.backgroundColor = 'rgba(0,255,0,0.2)';
         gameOverImage.src = '/img/win.png';
         winSFX.play();
 
         introScreen.innerHTML =
-          '<h2 style="color:green">You can do better.</h2>';
+          '<h2 style="color:#00ee00">You can do better.</h2>';
         setTimeout(() => {
           gameOverTitle.style.opacity = 1;
           setTimeout(() => {
@@ -428,6 +431,7 @@ document.addEventListener('DOMContentLoaded', () => {
         introScreen.innerHTML = '<h2 style="color:red">Do not die again.</h2>';
         gameOverImage.src = '/img/lose.png';
         tile.classList.add('exploded');
+        grid.style.backgroundColor = 'rgba(255,0,0,0.2)';
         explosionSFX.play();
         loseSFX.play();
         //Shows every hidden bomb

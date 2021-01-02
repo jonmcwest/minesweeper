@@ -174,12 +174,22 @@ body {
   position: absolute;
   bottom: 20px;
   right: 20px;
-  color: white;
+
   padding: 0 5px;
 }
 
-.settings-bar .btn {
+.settings-bar .btn,
+a,
+a:visited {
   padding: 10px 5px;
+  color: white;
+}
+
+.settings-bar p {
+  color: white;
+  font-size: 10px;
+  display: flex;
+  align-items: center;
 }
 
 #particle-div {
