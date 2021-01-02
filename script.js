@@ -1,6 +1,6 @@
 //TODO
 //random music
-//score screen after
+//score screen after DONE
 //timer DONE
 //remaining flags DONE
 //pause between difficulty and init
@@ -20,6 +20,9 @@ const easyDiff = document.getElementById('easy');
 const mediumDiff = document.getElementById('medium');
 const hardDiff = document.getElementById('hard');
 const highScore = document.getElementById('highScore');
+const score = document.getElementById('score');
+
+const introScreen = document.getElementById('introScreen');
 
 ///UI Declarations
 const gameOverTitle = document.getElementById('gameOverTitle');
@@ -51,10 +54,10 @@ const grid = document.querySelector('.grid');
 let isGameOver = false;
 
 ///Score Declarations
-const topScore = 99999;
-const easyScore = 1253;
-const mediumScore = 727;
-const hardScore = 256;
+const topScore = 999999;
+const easyScore = 2253;
+const mediumScore = 1727;
+const hardScore = 1256;
 let gameScore = 0;
 
 connect.addEventListener('click', () => {
@@ -70,18 +73,34 @@ document.addEventListener('DOMContentLoaded', () => {
   }, 10);
 
   easyDiff.addEventListener('click', () => {
-    initGame(10);
+    music.play();
+    ambientMusic.pause();
+    introScreen.style.display = 'flex';
+    setTimeout(() => {
+      initGame(10);
+    }, 4250);
   });
+
   mediumDiff.addEventListener('click', () => {
-    initGame(20);
+    music.play();
+    ambientMusic.pause();
+    introScreen.style.display = 'flex';
+    setTimeout(() => {
+      initGame(20);
+    }, 4250);
   });
   hardDiff.addEventListener('click', () => {
-    initGame(30);
+    music.play();
+    ambientMusic.pause();
+    introScreen.style.display = 'flex';
+    setTimeout(() => {
+      initGame(30);
+    }, 4250);
   });
 
   function initGame(bombs) {
-    music.play();
-    ambientMusic.pause();
+    introScreen.style.display = 'none';
+
     menuScreen.style.display = 'none';
     gameOverTitle.style.display = 'none';
     gameOverTitle.style.opacity = 0;
@@ -369,9 +388,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function gameOver(tile, result) {
       gameOverTitle.style.display = 'block';
+      music.pause();
+      music.currentTime = 5;
+
       clearInterval(timerInterval);
       let finalSecs = totalSecs;
       console.log(finalSecs + 'final score');
+      score.style.display = 'block';
 
       if (result === 'win') {
         if (bombCount === 10) {
@@ -385,7 +408,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
         gameOverImage.src = '/img/win.png';
         winSFX.play();
-        music.pause();
+
+        introScreen.innerHTML =
+          '<h2 style="color:green">You can do better.</h2>';
         setTimeout(() => {
           gameOverTitle.style.opacity = 1;
           setTimeout(() => {
@@ -404,11 +429,11 @@ document.addEventListener('DOMContentLoaded', () => {
             menuScreen.style.display = 'flex';
           }, 5000);
         }, 4000);
+        introScreen.innerHTML = '<h2 style="color:red">Do not die again.</h2>';
         gameOverImage.src = '/img/lose.png';
         tile.classList.add('exploded');
         explosionSFX.play();
         loseSFX.play();
-        music.pause();
         //Shows every hidden bomb
         tiles.forEach((tile, i) => {
           setTimeout(() => {

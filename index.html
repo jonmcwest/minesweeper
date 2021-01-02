@@ -7,15 +7,18 @@
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
+    <div class="intro-screen" id="introScreen"><h2>ARE YOU READY?</h2></div>
+
     <div id="loadScreen" class="loadscreen">
       <div class="load-wheel">
         <img id="loading" src="img/loading.gif" alt="load wheel" />
-        <div id="connect" class="menu-item">CONNECT</div>
+        <div id="connect" class="connect">CONNECT</div>
       </div>
     </div>
 
     <div class="menu-screen" id="menuScreen">
-      <h2>High Score: <span id="highScore">0</span></h2>
+      <h2 id="score">Your Score: <span id="highScore">0</span></h2>
+      <h3>Select your Difficulty:</h3>
       <ul>
         <li id="easy">Easy</li>
         <li id="medium">Medium</li>
