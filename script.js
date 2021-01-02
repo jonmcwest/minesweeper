@@ -1,8 +1,8 @@
 //TODO
 //random music
 //score screen after
-//timer
-//remaining flags
+//timer DONE
+//remaining flags DONE
 //pause between difficulty and init
 //red tint on explosion
 //export scripts into bitesize modules and integrate OOP
@@ -19,6 +19,7 @@ const menuScreen = document.getElementById('menuScreen');
 const easyDiff = document.getElementById('easy');
 const mediumDiff = document.getElementById('medium');
 const hardDiff = document.getElementById('hard');
+const highScore = document.getElementById('highScore');
 
 ///UI Declarations
 const gameOverTitle = document.getElementById('gameOverTitle');
@@ -45,8 +46,41 @@ tileClose.volume = 1;
 const ambientMusic = new Audio('./ambient.mp3');
 ambientMusic.loop = true;
 
-//Score Declarations
+//Functionality Declarations
+const grid = document.querySelector('.grid');
+let isGameOver = false;
+
+///Score Declarations
 let totalSecs = 0;
+const topScore = 99999;
+const easyScore = 1253;
+const mediumScore = 727;
+const hardScore = 256;
+let gameScore = 0;
+
+function startTimer() {
+  let secs = totalSecs;
+  let mins = totalSecs / 60;
+
+  setInterval(() => {
+    if (!isGameOver) {
+      if (secs < 59) {
+        secs++;
+        totalSecs++;
+        timer.innerHTML =
+          `${mins < 10 ? '0' + mins : mins}:` +
+          `${secs < 10 ? '0' + secs : secs}`;
+      } else {
+        secs = 0;
+        totalSecs++;
+        mins++;
+        timer.innerHTML =
+          `${mins < 10 ? '0' + mins : mins}:` +
+          `${secs < 10 ? '0' + secs : secs}`;
+      }
+    }
+  }, 1000);
+}
 
 connect.addEventListener('click', () => {
   loadScreen.style.display = 'none';
@@ -70,31 +104,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initGame(30);
   });
 
-  function startTimer() {
-    let secs = 0;
-    let mins = 0;
-
-    setInterval(() => {
-      if (secs < 59) {
-        secs++;
-        totalSecs++;
-        timer.innerHTML =
-          `${mins < 10 ? '0' + mins : mins}:` +
-          `${secs < 10 ? '0' + secs : secs}`;
-      } else {
-        secs = 0;
-        totalSecs++;
-        mins++;
-        timer.innerHTML =
-          `${mins < 10 ? '0' + mins : mins}:` +
-          `${secs < 10 ? '0' + secs : secs}`;
-      }
-    }, 1000);
-  }
-
   function initGame(bombs) {
-    const grid = document.querySelector('.grid');
-    grid.innerHTML = '';
     music.play();
     ambientMusic.pause();
     menuScreen.style.display = 'none';
@@ -102,6 +112,9 @@ document.addEventListener('DOMContentLoaded', () => {
     gameOverTitle.style.opacity = 0;
     let flagCount = bombs;
     flagsRemaining.innerHTML = `${flagCount}`;
+    gameScore = 0;
+    grid.innerHTML = '';
+
     startTimer();
 
     //Current Grid width in tiles
@@ -109,7 +122,6 @@ document.addEventListener('DOMContentLoaded', () => {
     let tiles = [];
     let bombCount = bombs;
     let flags = 0;
-    let isGameOver = false;
 
     particlesJS.load('particle-div', 'particle-cfg.json');
 
@@ -360,6 +372,15 @@ document.addEventListener('DOMContentLoaded', () => {
       gameOverTitle.style.display = 'block';
 
       if (result === 'win') {
+        if (bombCount === 10) {
+          gameScore = topScore - totalSecs * easyScore;
+        } else if (bombCount === 20) {
+          gameScore = topScore - totalSecs * mediumScore;
+        } else {
+          gameScore = topScore - totalSecs * highScore;
+        }
+        highScore.innerHTML = gameScore;
+
         gameOverImage.src = '/img/win.png';
         winSFX.play();
         music.pause();

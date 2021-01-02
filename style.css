@@ -69,7 +69,14 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-direction: column;
   transition: 1s;
+}
+
+.menu-screen h2 {
+  color: white;
+  font-size: 3rem;
+  margin-bottom: 20vh;
 }
 
 .menu-screen ul {
@@ -85,11 +92,20 @@ body {
   font-size: 2rem;
   cursor: pointer;
   user-select: none;
+  transition: 0.5s;
 }
 
-.menu-screen ul li:hover {
+#easy:hover {
   color: rgb(70, 245, 79);
   text-shadow: 0 0 10px rgba(70, 245, 79, 1);
+}
+#medium:hover {
+  color: rgb(190, 70, 245);
+  text-shadow: 0 0 10px rgba(190, 70, 245, 1);
+}
+#hard:hover {
+  color: rgb(245, 70, 70);
+  text-shadow: 0 0 10px rgb(245, 70, 70);
 }
 
 .game-wrapper {
